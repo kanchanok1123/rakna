@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>การ์ดวันเกิดไอซ์ 💖</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #ff758c, #ff7eb3);
+            font-family: 'Arial', sans-serif;
+            padding: 20px;
+            box-sizing: border-box;
+            overflow-x: hidden;
+        }
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            max-width: 400px;
+            width: 100%;
+            position: relative;
+        }
+        h1 {
+            color: #ff3d67;
+            font-size: 26px;
+        }
+        .heart {
+            font-size: 40px;
+            color: #ff3d67;
+            animation: pulse 1s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+        .slider-container {
+            position: relative;
+            width: 100%;
+            height: 250px;
+            overflow: hidden;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            margin: 15px 0;
+        }
+        .slider {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
+        .slide {
+            min-width: 100%;
+        }
+        .slide img, .slide video {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 15px;
+        }
+        .prev, .next {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            font-size: 20px;
+            padding: 10px;
+            border: none;
+            cursor: pointer;
+            border-radius: 50%;
+            opacity: 0.7;
+        }
+        .prev:hover, .next:hover {
+            opacity: 1;
+        }
+        .prev { left: 10px; }
+        .next { right: 10px; }
+        .btn {
+            background: #ff3d67;
+            color: white;
+            font-size: 18px;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+        .overlay, .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            z-index: 1000;
+        }
+        .overlay {
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>สุขสันต์วันเกิดนะไอซ์ ❤️</h1>
+        <div class="heart">💖</div>
+        
+        <h2>รวมภาพความทรงจำ</h2>
+        <div class="slider-container" id="image-slider">
+            <div class="slider">
+                <div class="slide"><img src="เค้ก.jpg" alt="Happy Moments"></div>
+                <div class="slide"><img src="น่ารัก.jpeg" alt="More Memories"></div>
+                <div class="slide"><img src="หน้าโกรธ.jpeg" alt="Happy Moments"></div>
+            </div>
+            <button class="prev" onclick="prevSlide('image-slider')">❮</button>
+            <button class="next" onclick="nextSlide('image-slider')">❯</button>
+        </div>
+
+        <h2>วิดีโอสุดพิเศษ</h2>
+        <div class="slider-container" id="video-slider">
+            <div class="slider">
+                <div class="slide"><video controls><source src="1730810316105.mp4" type="video/mp4"></video></div>
+                <div class="slide"><video controls><source src="ไอซ์.mp4" type="video/mp4"></video></div>
+                <div class="slide"><video controls><source src="1730810365620.mp4" type="video/mp4"></video></div>
+            </div>
+            <button class="prev" onclick="prevSlide('video-slider')">❮</button>
+            <button class="next" onclick="nextSlide('video-slider')">❯</button>
+        </div>
+
+        <button class="btn" id="popupBtn" onclick="showPopup()">คลิกเพื่อดูคำอวยพร</button>
+    </div>
+
+    <div class="overlay" id="overlay" onclick="closePopup()"></div>
+    <div class="popup" id="popup">
+        <h3>คำอวยพรนอย 💕</h3>
+        <div class="message">ขอให้ไอซ์มีความสุขมาก ๆ สมหวังในทุกสิ่งที่ปรารถนา และขอให้เราได้อยู่เคียงข้างกันตลอดไป จริงๆนอยก็คิดถึงทุกวันเลยนะ แต่นอยไม่อยากให้ไอซ์ต้องมาอึดอัดกับนอย นอยดีใจมากๆเลยนะที่ครั้งหนึ่งเคยมีไอซ์แล้วถ้าเป็นไปได้นอยก็อยากมีไอซ์อีก นอยหวังว่าสักวันไอซ์จะกลับมาหานะ  💖🎉</div>
+        <button class="btn" onclick="closePopup()">ปิด</button>
+    </div>
+
+    <script>
+        function prevSlide(sliderId) {
+            const slider = document.querySelector(`#${sliderId} .slider`);
+            slider.appendChild(slider.firstElementChild);
+        }
+        function nextSlide(sliderId) {
+            const slider = document.querySelector(`#${sliderId} .slider`);
+            slider.insertBefore(slider.lastElementChild, slider.firstElementChild);
+        }
+        function showPopup() {
+            document.getElementById('popup').style.display = 'block';
+            document.getElementById('overlay').style.display = 'block';
+        }
+        function closePopup() {
+            document.getElementById('popup').style.display = 'none';
+            document.getElementById('overlay').style.display = 'none';
+        }
+    </script>
+</body>
+</html>

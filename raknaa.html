@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>การ์ดวันเกิดสุดพิเศษ</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #f5a3d1, #ff77c0);
+            font-family: 'Arial', sans-serif;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .container {
+            text-align: center;
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            max-width: 600px;
+            width: 100%;
+        }
+        h1 {
+            font-size: 36px;
+            color: #ff5e8e;
+            margin-bottom: 20px;
+        }
+        .countdown {
+            font-size: 24px;
+            color: #ff5e8e;
+            font-weight: bold;
+            margin-bottom: 30px;
+        }
+        .btn {
+            background-color: #ff5e8e;
+            color: white;
+            font-size: 20px;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .btn.disabled {
+            background-color: grey;
+            cursor: not-allowed;
+        }
+        .btn:hover:not(.disabled) {
+            background-color: #ff3d67;
+        }
+        .overlay, .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            z-index: 1000;
+        }
+        .overlay {
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+        .popup h3 {
+            font-size: 24px;
+            color: #ff5e8e;
+        }
+        .popup .message {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>การ์ดวันเกิดสุดพิเศษ 🎉</h1>
+        <div class="countdown" id="countdown">กำลังนับถอยหลัง...</div>
+
+        <button class="btn disabled" id="popupBtn" onclick="redirectToNextPage()" disabled>คลิกเพื่อดูคำอวยพร</button>
+
+        <script>
+            // Countdown Timer
+            function updateCountdown() {
+                const birthday = new Date("March 25, 2025 00:00:00").getTime();
+                const now = new Date().getTime();
+                const distance = birthday - now;
+
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                document.getElementById("countdown").innerHTML =
+                    days + " วัน " + hours + " ชั่วโมง " + minutes + " นาที " + seconds + " วินาที ";
+
+                if (distance < 0) {
+                    document.getElementById("countdown").innerHTML = "สุขสันต์วันเกิด! 🎉";
+                    // เมื่อถึงวันเกิดแล้ว ปุ่มสามารถกดได้
+                    document.getElementById("popupBtn").disabled = false;
+                    document.getElementById("popupBtn").classList.remove("disabled");
+                }
+            }
+
+            setInterval(updateCountdown, 1000);
+
+            function redirectToNextPage() {
+                window.location.href = "index.html"; // เปลี่ยนเป็น URL ของหน้าถัดไปที่ต้องการ
+            }
+        </script>
+    </div>
+</body>
+</html>
